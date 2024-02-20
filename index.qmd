@@ -71,8 +71,8 @@ This line graph shows the relationship between the HPSA score and the full time 
 ```{r}
 data %>%
   filter(HPSAScore > 0) %>%
-  ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = HPSAScore) +
-  geom_line() +
+  ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = HPSAScore) )+
+  geom_line(size = 0.75) +
   labs(
     title = "HPSA Score and HPSA Full Time Employee Shortage",
     x = "HPSA FTE Shortage",
@@ -91,7 +91,7 @@ data %>%
   filter(HPSAScore > 0) %>%
   ggplot(aes(x=HPSAScore, y=PCMCTAScore)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(linetype = "dashed") +
   labs(
     title = "HPSA Score and PCMCTA Score",
     x = "HPSA Score",
