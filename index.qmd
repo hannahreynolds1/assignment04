@@ -13,16 +13,14 @@ format:
 
 This data is from the Health Resources and Services Administration  <https://data.hrsa.gov/tools/shortage-area/hpsa-find>.
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
+Uploading and cleaning data:
 ```{r}
 #load libraries
 library(tidyverse)
 library(ggplot2)
 library(haven)
 library(here)
+library(ggthemes)
 
 #load and clean data
 
@@ -33,8 +31,57 @@ data <- read_csv(
 data <- data %>%
   filter(PrimaryStateName == "New Mexico" | PrimaryStateName == "Arizona")
 ```
+## Visualization 1: Frequency of HPSA Designation by State
 
-You can add options to executable code like this
+These two bar graphs show the frequency of the three HPSA Designations - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which areas of health care experience the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. 
+
+```{r}
+data %>%
+  filter(PrimaryStateName == "Arizona") %>%
+  ggplot(aes(x=Discipline)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Frequency of HPSA Designation in Arizona",
+    x = "",
+    y = "Frequency",
+    caption = "Source: HRSA"
+  ) +
+  theme_economist_white()
+  
+data %>%
+  filter(PrimaryStateName == "New Mexico") %>%
+  ggplot(aes(x=Discipline)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Frequency of HPSA Designation in New Mexico",
+    x = "",
+    y = "Frequency",
+    caption = "Source: HRSA"
+  ) +
+  theme_economist_white()
+```
+
+## Visualization 2
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+## Visualization 3
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+## Visualization 4
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
 #| echo: false
