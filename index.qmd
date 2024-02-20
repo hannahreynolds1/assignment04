@@ -1,6 +1,6 @@
 ---
-title: "Data Science for Public Policy"
-subtitle: "Assignment 04"
+title: "Examination of Health Professional Shortage Area in Arizona and New Mexico"
+subtitle: "Intro to Data Science: Assignment 04"
 author: "Maddie DiMarco - msd150 & Hannah Reynolds - hjr45"
 execute: 
   warning: false
@@ -9,9 +9,9 @@ format:
     embed-resources: true
 ---
 
-## Quarto
+## Data
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This data is from the Health Resources and Services Administration  <https://data.hrsa.gov/tools/shortage-area/hpsa-find>.
 
 ## Running Code
 
