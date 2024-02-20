@@ -82,9 +82,9 @@ data %>%
   theme_economist_white()
 ```
 
-## Visualization 3
+## Relationship between HPSA Score and PCMCTA Score
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+This graph shows the relationship between the HPSA score and the maternity care target score. This shows a positive relationship between the two variables, in which counties with high HPSA scores, scoring their overall health profession shortage, also have high PCMCTA scores, meaning low performance reaching maternity care targets. The points show the individual realtionship between the scores, while the blue line shows the positive trending relationship. 
 
 ```{r}
 data %>%
