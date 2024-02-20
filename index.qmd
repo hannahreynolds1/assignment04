@@ -33,41 +33,53 @@ data <- data %>%
 ```
 ## Visualization 1: Frequency of HPSA Designation by State
 
-These two bar graphs show the frequency of the three HPSA Designations - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which areas of health care experience the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. 
+These two bar graphs show the frequency of the three HPSA Designations - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which areas of health care experience the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. Both graphs are scaled on the y-axis from 0 to 500, this helps compare the stark differences in shortages between states. We can see that Arizona has significantly more shortages in all three designations than New Mexico.
 
 ```{r}
 data %>%
   filter(PrimaryStateName == "Arizona") %>%
   ggplot(aes(x=Discipline)) +
-  geom_bar(position = "dodge") +
+  geom_bar(fill = "blue", position = "dodge") +
   labs(
     title = "Frequency of HPSA Designation in Arizona",
     x = "",
     y = "Frequency",
     caption = "Source: HRSA"
   ) +
-  theme_economist_white()
+  theme_economist_white() +
+  scale_y_continuous(limits = c(0, 500))
   
 data %>%
   filter(PrimaryStateName == "New Mexico") %>%
   ggplot(aes(x=Discipline)) +
-  geom_bar(position = "dodge") +
+  geom_bar(fill = "blue", position = "dodge") +
   labs(
     title = "Frequency of HPSA Designation in New Mexico",
     x = "",
     y = "Frequency",
     caption = "Source: HRSA"
   ) +
-  theme_economist_white()
+  theme_economist_white() +
+  scale_y_continuous(limits = c(0, 500))
+
 ```
 
-## Visualization 2
+## Visualization 2: Relationship between HPSA Score and HPSA Shortages
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+This line graph shows the relationship between the HPSA score and the full time employee shortage. The results of this graph are surprising because the shortage score is not linearly related to the actual full time shortage a county experiences. This is likely because there are several variables that impact a county's score such as percent of population below poverty line and travel time to nearest source of care. 
 
 ```{r}
-#| echo: false
-2 * 2
+data %>%
+  filter(HPSAScore > 0) %>%
+  ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = HPSAScore) +
+  geom_line() +
+  labs(
+    title = "HPSA Score and HPSA Full Time Employee Shortage",
+    x = "HPSA FTE Shortage",
+    y = "HPSA Score",
+    caption = "Source: HRSA"
+  ) +
+  theme_economist_white()
 ```
 
 ## Visualization 3
@@ -75,17 +87,36 @@ When you click the **Render** button a document will be generated that includes 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-#| echo: false
-2 * 2
+data %>%
+  filter(HPSAScore > 0) %>%
+  ggplot(aes(x=HPSAScore, y=PCMCTAScore)) +
+  geom_point() +
+  geom_smooth() +
+  labs(
+    title = "HPSA Score and PCMCTA Score",
+    x = "HPSA Score",
+    y = "PCMCTA Score",
+    caption = "Source: HRSA"
+  ) +
+  theme_economist_white() +
+  scale_y_continuous(limits = c(-5, 25))
 ```
 
-## Visualization 4
+## Distribution of HPSA Score Across Disciplines
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-#| echo: false
-2 * 2
+data %>%
+  ggplot(aes(x = Discipline, y = HPSAScore, fill = Discipline)) +
+  geom_violin() +
+  labs(
+    title = "Distribution of HPSA Score Across Disciplines",
+    x = "Discipline",
+    y = "HPSA Score",
+    caption = "Source: HRSA"
+  ) +
+  theme_economist_white()
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
