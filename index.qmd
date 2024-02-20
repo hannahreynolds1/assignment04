@@ -2,7 +2,7 @@
 title: "Data Science for Public Policy"
 subtitle: "Assignment 04"
 author: "Maddie DiMarco - msd150 & Hannah Reynolds - hjr45"
-execute:
+execute: 
   warning: false
 format:
   html:
