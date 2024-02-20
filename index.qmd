@@ -1,7 +1,7 @@
 ---
 title: "Examination of Health Professional Shortage Area in Arizona and New Mexico"
 subtitle: "Intro to Data Science: Assignment 04"
-author: "Maddie DiMarco - msd150 & Hannah Reynolds - hjr45"
+author: "Maddie Dimarco - msd150 & Hannah Reynolds - hjr45"
 execute: 
   warning: false
 format:
@@ -18,7 +18,20 @@ This data is from the Health Resources and Services Administration  <https://dat
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-1 + 1
+#load libraries
+library(tidyverse)
+library(ggplot2)
+library(haven)
+library(here)
+
+#load and clean data
+
+data <- read_csv(
+  here("Hpsa_Find_Export.csv")
+  ) 
+
+data <- data %>%
+  filter(PrimaryStateName == "New Mexico" | PrimaryStateName == "Arizona")
 ```
 
 You can add options to executable code like this
