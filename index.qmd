@@ -104,7 +104,7 @@ data %>%
 
 ## Distribution of HPSA Score Across Disciplines
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+This graph shows the distribution HPSA scores by discipline. The thickness of the graph shape represents the frequency of the HPSA score at the given discipline. At the thickest points of the shape, that is the most frequently received HPSA score for that discipline. We can see that the most frequent HPSA score for all three disciplines is slightly below a score of 20. 
 
 ```{r}
 data %>%
