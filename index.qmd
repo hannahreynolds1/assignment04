@@ -1,7 +1,7 @@
 ---
 title: "Examination of Health Professional Shortage Area in Arizona and New Mexico"
 subtitle: "Intro to Data Science: Assignment 04"
-author: "Maddie Dimarco - msd150 & Hannah Reynolds - hjr45"
+authors: "Maddie Dimarco - msd150 & Hannah Reynolds - hjr45"
 execute: 
   warning: false
 format:
@@ -15,6 +15,8 @@ This data is from the Health Resources and Services Administration  <https://dat
 
 Uploading and cleaning data:
 ```{r}
+#| warning: false
+
 #load libraries
 library(tidyverse)
 library(ggplot2)
@@ -36,10 +38,12 @@ data <- data %>%
 These two bar graphs show the frequency of the three HPSA Designations - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which areas of health care experience the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. Both graphs are scaled on the y-axis from 0 to 500, this helps compare the stark differences in shortages between states. We can see that Arizona has significantly more shortages in all three designations than New Mexico.
 
 ```{r}
+#| warning: false
+
 data %>%
   filter(PrimaryStateName == "Arizona") %>%
   ggplot(aes(x=Discipline)) +
-  geom_bar(fill = "blue", position = "dodge") +
+  geom_bar(fill = "blue", position = "dodge", width = 0.5) +
   labs(
     title = "Frequency of HPSA Designation in Arizona",
     x = "",
@@ -52,7 +56,7 @@ data %>%
 data %>%
   filter(PrimaryStateName == "New Mexico") %>%
   ggplot(aes(x=Discipline)) +
-  geom_bar(fill = "blue", position = "dodge") +
+  geom_bar(fill = "blue", position = "dodge", width = 0.5) +
   labs(
     title = "Frequency of HPSA Designation in New Mexico",
     x = "",
@@ -69,9 +73,11 @@ data %>%
 This line graph shows the relationship between the HPSA score and the full time employee shortage. The results of this graph are surprising because the shortage score is not linearly related to the actual full time shortage a county experiences. This is likely because there are several variables that impact a county's score such as percent of population below poverty line and travel time to nearest source of care. 
 
 ```{r}
+#| warning: false
+
 data %>%
   filter(HPSAScore > 0) %>%
-  ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = HPSAScore) )+
+  ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = PrimaryStateName) )+
   geom_line(size = 0.75) +
   labs(
     title = "HPSA Score and HPSA Full Time Employee Shortage",
@@ -82,16 +88,18 @@ data %>%
   theme_economist_white()
 ```
 
-## Relationship between HPSA Score and PCMCTA Score
+## Visualization 3: Relationship between HPSA Score and PCMCTA Score
 
-This graph shows the relationship between the HPSA score and the maternity care target score. This shows a positive relationship between the two variables, in which counties with high HPSA scores, scoring their overall health profession shortage, also have high PCMCTA scores, meaning low performance reaching maternity care targets. The points show the individual realtionship between the scores, while the blue line shows the positive trending relationship. 
+This graph shows the relationship between the HPSA score and the maternity care target score. This shows a positive relationship between the two variables, in which counties with high HPSA scores, scoring their overall health profession shortage, also have high PCMCTA scores, meaning low performance reaching maternity care targets. The points show the individual realtionship between the scores, while the blue dashed line shows the positive trending relationship. 
 
 ```{r}
+#| warning: false
+
 data %>%
   filter(HPSAScore > 0) %>%
-  ggplot(aes(x=HPSAScore, y=PCMCTAScore)) +
-  geom_point() +
-  geom_smooth(linetype = "dashed") +
+  ggplot(aes(x=HPSAScore, y=PCMCTAScore, alpha = 0.1, group_by = PrimaryStateName)) +
+  geom_point(shape = 0) +
+  geom_smooth(linetype = "dashed", aes(color = PrimaryStateName)) +
   labs(
     title = "HPSA Score and PCMCTA Score",
     x = "HPSA Score",
@@ -102,11 +110,13 @@ data %>%
   scale_y_continuous(limits = c(-5, 25))
 ```
 
-## Distribution of HPSA Score Across Disciplines
+## Visualization 4: Distribution of HPSA Score Across Disciplines
 
 This graph shows the distribution HPSA scores by discipline. The thickness of the graph shape represents the frequency of the HPSA score at the given discipline. At the thickest points of the shape, that is the most frequently received HPSA score for that discipline. We can see that the most frequent HPSA score for all three disciplines is slightly below a score of 20. 
 
 ```{r}
+#| warning: false
+
 data %>%
   ggplot(aes(x = Discipline, y = HPSAScore, fill = Discipline)) +
   geom_violin() +
@@ -119,4 +129,3 @@ data %>%
   theme_economist_white()
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
