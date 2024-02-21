@@ -11,6 +11,8 @@ format:
 
 ## Data
 
+This document examines county-level data on health professional shortages in Arizona and New Mexico. Below we examine several relationships to better understand different indicators of healthcare access related to health worker shortages. We look at the frequency of designation of a county as a health professional shortage area between the two states and across different disciplines, including primary care, mental health and dental health. We further examine at the relationship between the HPSA scores and other indicators of healthcare access such as full time equivalent (FTE) staffing shortages and maternity care target score, within New Mexico an Arizona.
+
 This data is from the Health Resources and Services Administration  <https://data.hrsa.gov/tools/shortage-area/hpsa-find>.
 
 Uploading and cleaning data:
@@ -35,7 +37,7 @@ data <- data %>%
 ```
 ## Visualization 1: Frequency of HPSA Designation by State
 
-These two bar graphs show the frequency of the three HPSA Designations - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which areas of health care experience the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. Both graphs are scaled on the y-axis from 0 to 500, this helps compare the stark differences in shortages between states. We can see that Arizona has significantly more shortages in all three designations than New Mexico.
+These two bar graphs show the frequency of the three HPSA Designation Types - dental health, mental health, and primary care - for Arizona and New Mexico. The graphs show which types of designations have the greatest shortages in each state. Both Arizona and New Mexico experience the greatest shortages in primary care, however, dental health also greatly lacks health professionals in Arizona. Both graphs are scaled on the y-axis from 0 to 500, this helps compare the stark differences in shortages between states. We can see that Arizona has significantly more shortages in all three designations than New Mexico.
 
 ```{r}
 #| warning: false
@@ -48,7 +50,7 @@ data %>%
     title = "Frequency of HPSA Designation in Arizona",
     x = "",
     y = "Frequency",
-    caption = "Source: HRSA"
+    caption = "Source: Health Resources & Services Administration (HRSA). (2024)"
   ) +
   theme_economist_white() +
   scale_y_continuous(limits = c(0, 500))
@@ -61,7 +63,7 @@ data %>%
     title = "Frequency of HPSA Designation in New Mexico",
     x = "",
     y = "Frequency",
-    caption = "Source: HRSA"
+    caption = "Source: Health Resources & Services Administration (HRSA). (2024)"
   ) +
   theme_economist_white() +
   scale_y_continuous(limits = c(0, 500))
@@ -70,7 +72,7 @@ data %>%
 
 ## Visualization 2: Relationship between HPSA Score and HPSA Shortages
 
-This line graph shows the relationship between the HPSA score and the full time employee shortage. The results of this graph are surprising because the shortage score is not linearly related to the actual full time shortage a county experiences. This is likely because there are several variables that impact a county's score such as percent of population below poverty line and travel time to nearest source of care. 
+This line graph shows the relationship between the HPSA score and the full time employee shortage. The results of this graph are surprising because the shortage score is not linearly related to the actual full time shortage a county experiences. This is likely because there are several variables that impact a county's HPSA score such as percent of population below poverty line and travel time to nearest source of care. The graph shows the relationship for New Mexico and Arizona separately, without significant differences in trends between the two states. This lack of trend across the two states is likely due to the concentration of data in the places with smaller FTE shortages and very limited data for areas with very high shortages. 
 
 ```{r}
 #| warning: false
@@ -78,19 +80,20 @@ This line graph shows the relationship between the HPSA score and the full time 
 data %>%
   filter(HPSAScore > 0) %>%
   ggplot(aes(x=HPSAFTEShort, y=HPSAScore, color = PrimaryStateName) )+
-  geom_line(size = 0.75) +
+  geom_point(shape = 1) +
+  geom_line(size = 0.25) +
   labs(
     title = "HPSA Score and HPSA Full Time Employee Shortage",
     x = "HPSA FTE Shortage",
     y = "HPSA Score",
-    caption = "Source: HRSA"
+    caption = "Source: Health Resources & Services Administration (HRSA). (2024)"
   ) +
   theme_economist_white()
 ```
 
 ## Visualization 3: Relationship between HPSA Score and PCMCTA Score
 
-This graph shows the relationship between the HPSA score and the maternity care target score. This shows a positive relationship between the two variables, in which counties with high HPSA scores, scoring their overall health profession shortage, also have high PCMCTA scores, meaning low performance reaching maternity care targets. The points show the individual realtionship between the scores, while the blue dashed line shows the positive trending relationship. 
+This graph shows the relationship between the HPSA score and the maternity care target score. This shows a positive relationship between the two variables, in which counties with high HPSA scores, scoring their overall health profession shortage, also have high PCMCTA scores, meaning low performance reaching maternity care targets. We can therefore see that despite the fact that the scoring systems measure different indicators, there is still a positive correlation between the two in both Arizona and New Mexico. While both states demonstrate a general linear trend, the data from New Mexico shows a much higher starting point for PCMCTA and HPSA scores, demonstrating a "flatter" slope compared to Arizona has a wider range of scores across both indicators. 
 
 ```{r}
 #| warning: false
@@ -98,13 +101,12 @@ This graph shows the relationship between the HPSA score and the maternity care 
 data %>%
   filter(HPSAScore > 0) %>%
   ggplot(aes(x=HPSAScore, y=PCMCTAScore, alpha = 0.1, group_by = PrimaryStateName)) +
-  geom_point(shape = 0) +
   geom_smooth(linetype = "dashed", aes(color = PrimaryStateName)) +
   labs(
     title = "HPSA Score and PCMCTA Score",
     x = "HPSA Score",
     y = "PCMCTA Score",
-    caption = "Source: HRSA"
+    caption = "Source: Health Resources & Services Administration (HRSA). (2024)"
   ) +
   theme_economist_white() +
   scale_y_continuous(limits = c(-5, 25))
@@ -112,7 +114,7 @@ data %>%
 
 ## Visualization 4: Distribution of HPSA Score Across Disciplines
 
-This graph shows the distribution HPSA scores by discipline. The thickness of the graph shape represents the frequency of the HPSA score at the given discipline. At the thickest points of the shape, that is the most frequently received HPSA score for that discipline. We can see that the most frequent HPSA score for all three disciplines is slightly below a score of 20. 
+This graph shows the distribution of HPSA scores by each of the three disciplines. The thickness of each graph shape represents the frequency of the HPSA scores at the given discipline. At the thickest points of the shape, that is the most frequently received HPSA score for that discipline. We can see that the most frequent HPSA score for all three disciplines is slightly below a score of 20. This also demonstrates that the distribution of scores for mental health is more conentrated at higher scores, compared to a slightly more even distribution acorss dental health and primary care. 
 
 ```{r}
 #| warning: false
@@ -124,7 +126,7 @@ data %>%
     title = "Distribution of HPSA Score Across Disciplines",
     x = "Discipline",
     y = "HPSA Score",
-    caption = "Source: HRSA"
+    caption = "Source: Health Resources & Services Administration (HRSA). (2024)"
   ) +
   theme_economist_white()
 ```
